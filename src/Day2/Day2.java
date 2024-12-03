@@ -13,9 +13,25 @@ public class Day2 {
         for(String data: fileData){
             fileDataList.add(splitToArray(data));
         }
+        System.out.println("part 1: " + partOne(fileDataList));
+        System.out.println("part 2: " + partTwo(fileDataList));
+    }
+
+    public static int partOne(ArrayList<String[]> fileDataList){
 
         int count = 0;
+        for(String[] list: fileDataList){
+            ArrayList<String> strings = new ArrayList<>(Arrays.asList(list));
+            if(isSafe(strings)) count++;
+        }
+        return count;
+    }
 
+
+
+    public static int partTwo(ArrayList<String[]> fileDataList){
+
+        int count = 0;
         for(String[] list: fileDataList){
             ArrayList<String> strings = new ArrayList<>(Arrays.asList(list));
             if(isSafe(strings)) count++;
@@ -30,8 +46,9 @@ public class Day2 {
                 }
             }
         }
-        System.out.println(count);
+        return count;
     }
+
 
     public static boolean isSafe(ArrayList<String> list){
         int countPos = 0;
