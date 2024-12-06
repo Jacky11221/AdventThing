@@ -3,6 +3,7 @@ package Day5;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,39 +16,98 @@ public class Day5 {
         System.out.println(fileDataProduce);
 
         ArrayList<String> dataAfterPassingRule = new ArrayList<>();
+        ArrayList<String> brokenPages = new ArrayList<>();
 
 
         for(String pages: fileDataProduce){
+            boolean works = true;
             for(String rule: fileDataRule){
                 String firstPage = rule.substring(0,2);
                 String secondPage = rule.substring(3,5);
-//                System.out.println(firstPage);
-//                System.out.println(secondPage);
-//
-//
-//                System.out.println(pages);
-//                System.out.println(pages);
-//
-//                System.out.println(pages.indexOf(firstPage));
-//                System.out.println(pages.indexOf(secondPage));
 
                 if(pages.contains(firstPage) && pages.contains(secondPage)) {
                     if (pages.indexOf(firstPage) < pages.indexOf(secondPage)) System.out.println(true);
                     else {
+                        works = false;
                         System.out.println("this BREAKS THE RULES MEANING THIS LOOP WILL BREA");
                         break;
                     }
-                    dataAfterPassingRule.add(pages);
                 }
+            }
+            if(works) dataAfterPassingRule.add(pages);
+            else {
+                brokenPages.add(pages);
             }
             System.out.println("end of page product");
         }
 
-        System.out.println(dataAfterPassingRule);
+        int sum = 0;
+
+        System.out.println("Works:" + dataAfterPassingRule);
+        System.out.println("Broken" + brokenPages);
+
+//
+//        for(String data: dataAfterPassingRule) {
+//            String[] arr = splitToArray(data, ",");
+//            for(int i = 0; i < arr.length; i++){
+//                if(arr.length/2 == i){
+//                    sum += Integer.parseInt(arr[i]);
+//                }
+//            }
+//        }
+//
+//        System.out.println(sum);
+//        System.out.println(Arrays.toString(arr));
+        solveDay5Part2();
 
 
 
+    }
+
+
+    public static int solveDay5Part2(){
+        ArrayList<String> fileDataRule = getFileData("src/Day5/day5rulesinput.txt");
+        ArrayList<String> fileDataProduce = getFileData("src/Day5/day5produceinput.txt");
+        System.out.println(fileDataRule);
+        System.out.println(fileDataProduce);
+
+        ArrayList<String> dataAfterPassingRule = new ArrayList<>();
+        ArrayList<String> brokenPages = new ArrayList<>();
+
+
+        for(String pages: fileDataProduce){
+            boolean works = true;
+            for(String rule: fileDataRule){
+                String firstPage = rule.substring(0,2);
+                String secondPage = rule.substring(3,5);
+
+                if(pages.contains(firstPage) && pages.contains(secondPage)) {
+                    if (pages.indexOf(firstPage) < pages.indexOf(secondPage)) System.out.println(true);
+                    else {
+                        works = false;
+                        System.out.println("this BREAKS THE RULES MEANING THIS LOOP WILL BREA");
+                        break;
+                    }
+                }
+            }
+            if(works) dataAfterPassingRule.add(pages);
+            else {
+                brokenPages.add(pages);
+            }
+            System.out.println("end of page product");
         }
+
+        int sum = 0;
+
+        System.out.println("Works:" + dataAfterPassingRule);
+        System.out.println("Broken" + brokenPages);
+        return 0;
+    }
+
+//    public static ArrayList<String> getRulesForIncorrectPages(String pages){
+//
+//    }
+
 
 
 
@@ -83,7 +143,6 @@ public class Day5 {
 
 
 }
-
 
 
 
