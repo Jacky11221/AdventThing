@@ -59,9 +59,6 @@ public class Day5 {
 //        System.out.println(sum);
 //        System.out.println(Arrays.toString(arr));
         solveDay5Part2();
-
-
-
     }
 
 
@@ -73,6 +70,7 @@ public class Day5 {
 
         ArrayList<String> dataAfterPassingRule = new ArrayList<>();
         ArrayList<String> brokenPages = new ArrayList<>();
+        ArrayList<String[]> listOfBrokenPages = new ArrayList<>();
 
 
         for(String pages: fileDataProduce){
@@ -82,25 +80,62 @@ public class Day5 {
                 String secondPage = rule.substring(3,5);
 
                 if(pages.contains(firstPage) && pages.contains(secondPage)) {
-                    if (pages.indexOf(firstPage) < pages.indexOf(secondPage)) System.out.println(true);
-                    else {
+                    if (!(pages.indexOf(firstPage) < pages.indexOf(secondPage))) {
                         works = false;
                         System.out.println("this BREAKS THE RULES MEANING THIS LOOP WILL BREA");
                         break;
                     }
                 }
             }
-            if(works) dataAfterPassingRule.add(pages);
-            else {
-                brokenPages.add(pages);
+            if(!works){
+                String[] PLEASE = splitToArray(pages,",");
+                listOfBrokenPages.add(PLEASE);
+//                System.out.println(Arrays.toString(PLEASE));
             }
-            System.out.println("end of page product");
+//            System.out.println("end of page product");
         }
 
         int sum = 0;
 
-        System.out.println("Works:" + dataAfterPassingRule);
-        System.out.println("Broken" + brokenPages);
+//        System.out.println("Works:" + dataAfterPassingRule);
+        System.out.println("Broken" + listOfBrokenPages);
+        ArrayList<ArrayList<String>> rulesForBrokenPages = new ArrayList<>();
+        ArrayList<String> ruleForSingularBrokenPage = new ArrayList<>();
+
+
+        int countI = 0;
+
+        for (String[] brokenPage : listOfBrokenPages) {
+            System.out.println(Arrays.toString(brokenPage));
+            for (String rule : fileDataRule) {
+                boolean firstPageExists = false;
+                boolean secondPageExists = false;
+
+                String firstPage = rule.substring(0, 2);
+                String secondPage = rule.substring(3, 5);
+
+                for (String s : brokenPage) {
+                    if (s == firstPage) firstPageExists = true;
+                    if (s == secondPage) secondPageExists = true;
+                }
+                if(firstPageExists && secondPageExists) ruleForSingularBrokenPage.add(rule);
+            }
+            ArrayList<String> stopBeingMutable = (ArrayList<String>) ruleForSingularBrokenPage.clone();
+            ruleForSingularBrokenPage.clear();
+            rulesForBrokenPages.add(stopBeingMutable);
+            countI++;
+        }
+        System.out.println("rules " + rulesForBrokenPages);
+
+
+        for(int i = 0; i < listOfBrokenPages.size(); i++){
+            int middleIndex = listOfBrokenPages.get(i).length/2;
+
+            for(int j = 0; j < rulesForBrokenPages.get(i).size(); j++){
+                String[] thing = splitToArray(rulesForBrokenPages.get(i).get(j),"\\|");
+
+            }
+        }
         return 0;
     }
 
