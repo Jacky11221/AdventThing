@@ -19,33 +19,61 @@ public class Day8 {
 //        for(String ssymop: symbols){
 //            System.out.println(getCoordsForPoints(ssymop,fileData2D));
 //        }
-
         ArrayList<String> aCoords = getCoordsForPoints(symbols.get(1),fileData2D);
 
+        for(String ssymop: symbols){
+            fileData2D = getAntiNodes(getCoordsForPoints(ssymop,fileData2D), fileData2D);
+        }
+        System.out.println(Arrays.deepToString(fileData2D));
+    }
 
-
-        System.out.println(aCoords);
-        for(int i = 0; i < aCoords.size(); i++){
-            String[] xy1 = splitToArray(aCoords.get(i),",");
-            for(int j = i+1; j < aCoords.size(); j++){
-                String[] xy2 = splitToArray(aCoords.get(j),",");
-
+    public static String[][] getAntiNodes(ArrayList<String> coordinates, String[][] fileData2D){
+        for(int i = 0; i < coordinates.size(); i++){
+            String[] xy1 = splitToArray(coordinates.get(i),",");
+            for(int j = i+1; j < coordinates.size(); j++){
+                String[] xy2 = splitToArray(coordinates.get(j),",");
 
                 System.out.println("xy1: " + Arrays.toString(xy1));
                 System.out.println("xy2: " + Arrays.toString(xy2));
 
-                int xDiff = Integer.parseInt(xy2[0]) - Integer.parseInt(xy1[0]);
+                int xDiff = getXDiff(xy1,xy2);
+                int yDiff = getYDiff(xy1,xy2);
 
+                System.out.println(xDiff);
+                System.out.println(yDiff);
+
+                int newInterferenceX1 = (Integer.parseInt(xy1[0]) + xDiff*2);
+                int newInterferenceY1 = (Integer.parseInt(xy1[1]) + yDiff*2);
+                int newInterferenceX2 = (Integer.parseInt(xy2[0]) - xDiff*2);
+                int newInterferenceY2 = (Integer.parseInt(xy2[1]) - yDiff*2);
+
+                System.out.println("new hash x for first point: " + newInterferenceX1);
+                System.out.println("new hash y for first point: " + newInterferenceY1);
+                System.out.println("new hash x for second point: " + newInterferenceX2);
+                System.out.println("new hash y for second point: " + newInterferenceY2);
+
+                        if(newInterferenceX1 <= fileData2D.length
+                        && newInterferenceY1 <= fileData2D[0].length
+                        && Objects.equals(fileData2D[newInterferenceX1][newInterferenceY1], ".")) {
+                    fileData2D[newInterferenceX1][newInterferenceY1] = "#";
+                }
+                        if(newInterferenceX2 <= fileData2D.length
+                        && newInterferenceY2 <= fileData2D[0].length
+                        && Objects.equals(fileData2D[newInterferenceX2][newInterferenceY2], ".")){
+                    fileData2D[newInterferenceX2][newInterferenceY2] = "#";
+                }
             }
         }
-//        for(int i = 0; i < aCoords.size()-1; i++){
-//            String[] firstxy = splitToArray(aCoords.get(i),",");
-//            String[] secondxy = splitToArray(aCoords.get(i+1),",");
-//            System.out.println(
-//                    (Integer.parseInt(secondxy[1])-Integer.parseInt(firstxy[1]))
-//                            /(Integer.parseInt(secondxy[0])-Integer.parseInt(firstxy[0]))
-//            );
-//        }
+//        System.out.println(Arrays.deepToString(fileData2D));
+        return fileData2D;
+    }
+
+    public static int getXDiff(String[] xy1, String[] xy2){
+        return Integer.parseInt(xy2[0]) - Integer.parseInt(xy1[0]);
+    }
+
+    public static int getYDiff(String[] xy1, String[] xy2){
+        return Integer.parseInt(xy2[1]) - Integer.parseInt(xy1[1]);
     }
 
 
