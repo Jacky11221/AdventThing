@@ -16,8 +16,18 @@ public class Day6 {
 
 
         traverseArray(fileData2D);
+        System.out.println(countX(fileData2D));
 
+    }
 
+    public static int countX(String[][] fileData2D){
+        int x = 0;
+        for (int r = 0; r < fileData2D.length; r++) {
+            for (int c = 0; c < fileData2D[0].length; c++) {
+                if(Objects.equals(fileData2D[r][c], "X")) x++;
+            }
+        }
+        return x+1;
     }
 
     public static void traverseArray(String[][] fileData2D) {
@@ -46,32 +56,31 @@ public class Day6 {
                             }
 
 
-                            if (getGuardDirection(fileData2D, guardCoordinates) == 2) {
+                            if (direction == 2) {
                                 if (Objects.equals(fileData2D[r][c + 1], "#")) {
                                     direction++;
-
                                 } else {
                                     fileData2D[r][c + 1] = fileData2D[r][c];
                                     fileData2D[r][c] = "X";
                                 }
                             }
 
-                            if (getGuardDirection(fileData2D, guardCoordinates) == 3) {
-                                if (Objects.equals(fileData2D[r][c - 1], "#")) {
+                            if (direction == 3) {
+                                if (Objects.equals(fileData2D[r + 1][c], "#")) {
                                     direction++;
 
                                 } else {
-                                    fileData2D[r][c - 1] = fileData2D[r][c];
+                                    fileData2D[r + 1][c] = fileData2D[r][c];
                                     fileData2D[r][c] = "X";
                                 }
                             }
 
-                            if (getGuardDirection(fileData2D, guardCoordinates) == 4) {
-                                if (Objects.equals(fileData2D[r + 1][c], "#")) {
+                            if (direction == 4) {
+                                if (Objects.equals(fileData2D[r][c - 1], "#")) {
                                     direction = 1;
 
                                 } else {
-                                    fileData2D[r + 1][c] = fileData2D[r][c];
+                                    fileData2D[r][c - 1] = fileData2D[r][c];
                                     fileData2D[r][c] = "X";
                                 }
                             }
@@ -80,7 +89,7 @@ public class Day6 {
                 }
             }
         }catch(Exception e){
-            System.out.println("kys");
+            System.out.println("While loop exited");
         }
     }
 
