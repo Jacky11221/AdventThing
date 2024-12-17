@@ -19,12 +19,49 @@ public class Day9 {
 
         ArrayList<String> quantizedData2 = quantizeData(fileData2);
         System.out.println("quantized2:" + quantizedData2);
-        ArrayList<String> designatedQuantification = designateData(quantizedData2);
+        ArrayList<String> quantizedData2WithoutDots = getDataWithoutDots(quantizedData2);
+        System.out.println(quantizedData2WithoutDots);
+
+        ArrayList<ArrayList<String>> work = getPacketsOfData(quantizedData2WithoutDots);
+        System.out.println(work);
+        ArrayList<String> designatedQuantification = designateData(quantizedData2, work);
         System.out.println("Part 2");
 
     }
 
-    private static ArrayList<String> designateData(ArrayList<String> data) {
+    private static ArrayList<String> getDataWithoutDots(ArrayList<String> data){
+        ArrayList<String> newData = (ArrayList<String>) data.clone();
+        for(int i = 0; i < newData.size(); i++){
+            if(Objects.equals(newData.get(i), ".")){
+                newData.remove(i);
+                i--;
+            }
+        }
+        return newData;
+    }
+
+    private static ArrayList<ArrayList<String>> getPacketsOfData(ArrayList<String> data){
+        ArrayList<ArrayList<String>> packetsOfData = new ArrayList<>();
+        ArrayList<String> dataNumbers = new ArrayList<>();
+        for(int i = 0; i < data.size(); i++){
+            String designated = data.get(i);
+            int j = i;
+            while(Objects.equals(designated, data.get(j))){
+                dataNumbers.add(data.get(j));
+                j++;
+
+                System.out.println(packetsOfData);
+                System.out.println(dataNumbers);
+                if(j > data.size()-1) break;
+            }
+            i = j-1;
+            packetsOfData.add((ArrayList<String>) dataNumbers.clone());
+            dataNumbers.clear();
+        }
+        return packetsOfData;
+    }
+
+    private static ArrayList<String> designateData(ArrayList<String> data, ArrayList<ArrayList<String>> packets) {
         for(int i = 0; i < data.size(); i++){
             if(Objects.equals(data.get(i), ".")){
                 int blankDataLength = 0;
@@ -35,7 +72,7 @@ public class Day9 {
                 }
                 i = j;
                 System.out.println(blankDataLength);
-                //add things here maybe
+
 
             }
         }
