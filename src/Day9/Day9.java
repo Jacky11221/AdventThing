@@ -25,6 +25,7 @@ public class Day9 {
         ArrayList<ArrayList<String>> work = getPacketsOfData(quantizedData2WithoutDots);
         System.out.println(work);
         ArrayList<String> designatedQuantification = designateData(quantizedData2, work);
+        System.out.println(designatedQuantification);
         System.out.println("Part 2");
 
     }
@@ -49,19 +50,18 @@ public class Day9 {
             while(Objects.equals(designated, data.get(j))){
                 dataNumbers.add(data.get(j));
                 j++;
-
-                System.out.println(packetsOfData);
-                System.out.println(dataNumbers);
                 if(j > data.size()-1) break;
             }
             i = j-1;
             packetsOfData.add((ArrayList<String>) dataNumbers.clone());
             dataNumbers.clear();
         }
+        System.out.println(packetsOfData);
         return packetsOfData;
     }
 
     private static ArrayList<String> designateData(ArrayList<String> data, ArrayList<ArrayList<String>> packets) {
+        packets.reversed();
         for(int i = 0; i < data.size(); i++){
             if(Objects.equals(data.get(i), ".")){
                 int blankDataLength = 0;
@@ -70,10 +70,30 @@ public class Day9 {
                     blankDataLength++;
                     j++;
                 }
-                i = j;
                 System.out.println(blankDataLength);
+                for(int packet = 0; packet < packets.size(); packet++){ //loop through packets to see if a packet fits
 
+                    if(packets.get(packet).size() <= blankDataLength){ // checks if packet fits
+                        int startOfBlank = i; // assigns start of blanks
+                        for(int p = 0; p < packets.get(packet).size(); p++){ // loops through individual packet to replace blank space
+                            data.add(startOfBlank, packets.get(packet).get(p)); // add
+                            data.remove(startOfBlank + 1); // remove redundant .
 
+                            for(int last = data.size() - 1; last > 0; last--){
+                                if(Objects.equals(data.get(last), packets.get(packet).getFirst())){
+//                                    for(int die = data.size() - 1;){
+//                                        data.add(startOfBlank, packets.get(packet).get(p)); // add
+//                                        data.remove(startOfBlank + 1); // remove redundant .
+//                                    }
+                                }
+                            }
+
+                            startOfBlank++; // iterates through all the numbers in individual packet
+                        }
+                        packets.removeFirst(); //removes packet as it was used
+                    }
+                }
+                i = j; // sets index to j to skip over all dots (might be bad)
             }
         }
         return data;
