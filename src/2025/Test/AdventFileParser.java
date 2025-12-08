@@ -1,3 +1,4 @@
+package Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -5,10 +6,11 @@ import java.util.Scanner;
 
 public class AdventFileParser {
     
-    public static ArrayList<String> getFileData(String fileName) {
+    public static ArrayList<String> getFileData(String fileName, int day) {
+        String fileNameRelative = "../2025/Day" + day + "/" + fileName;
         ArrayList<String> fileData = new ArrayList<String>();
         try {
-            File f = new File(fileName);
+            File f = new File(fileNameRelative);
             Scanner s = new Scanner(f);
             while (s.hasNextLine()) {
                 String line = s.nextLine();
